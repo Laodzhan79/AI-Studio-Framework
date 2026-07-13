@@ -1,5 +1,7 @@
 from src.core.registry import AgentRegistry
-from src.agents.echo_agent import EchoAgent
+from src.core.orchestrator import Orchestrator
+from src.agents.pm_agent import PMAgent
+from src.agents.developer_agent import DeveloperAgent
 from src.providers.base_provider import BaseProvider
 
 
@@ -21,17 +23,35 @@ def main():
     registry = AgentRegistry()
 
     provider = MockProvider()
-    agent = EchoAgent(
-        name="echo",
-        role="Test Agent",
+
+    pm = PMAgent(
+        name="pm",
+        role="Project Manager",
         provider=provider,
     )
 
-    registry.register(agent)
+    developer = DeveloperAgent(
+        name="developer",
+        role="Developer",
+        provider=provider,
+    )
 
-    result = registry.get("echo").execute("Проверка архитектуры")
+    registry.register(pm)
+    registry.register(developer)
 
-    print(result)
+    orchestrator = Orchestrator(registry)
+
+    print(orchestrator.execute(
+        agent_name="pm",
+        task="Составить план разработки."
+    ))
+
+    print("-" * 50)
+
+    print(orchestrator.execute(
+        agent_name="developer",
+        task="Создать класс ContextManager."
+    ))
 
 
 if __name__ == "__main__":
