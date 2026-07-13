@@ -1,0 +1,71 @@
+ai_studio/
+│
+├── app/
+│   ├── main.py              # точка входа
+│   └── config.py            # загрузка конфигурации (.env и т.д.)
+│
+├── interfaces/
+│   ├── telegram/
+│   │   ├── bot.py           # Telegram-обработчик
+│   │   └── handlers.py      # обработчики команд и кнопок
+│   ├── cli/                 # командная строка (в будущем)
+│   └── api/                 # REST API (в будущем)
+│
+├── core/
+│   ├── router.py            # определяет, что хочет пользователь
+│   ├── orchestrator.py      # управляет выполнением задач
+│   ├── workflow.py          # строит и контролирует планы
+│   ├── registry.py          # реестр агентов
+│   ├── events.py            # Event Bus
+│   ├── task.py              # описание задачи
+│   └── exceptions.py        # кастомные исключения
+│
+├── agents/
+│   ├── base.py              # BaseAgent
+│   ├── researcher.py
+│   ├── strategist.py
+│   ├── writer.py
+│   ├── developer.py
+│   ├── designer.py
+│   ├── pm.py                # оркестратор (не агент)
+│   └── devops.py
+│
+├── providers/
+│   ├── base_provider.py     # BaseProvider
+│   ├── gigachat_provider.py
+│   ├── openai_provider.py   # (в будущем)
+│   └── ollama_provider.py   # (в будущем)
+│
+├── memory/
+│   ├── context.py           # управление контекстом диалога
+│   ├── session_memory.py    # память сессии
+│   ├── project_memory.py    # память проекта
+│   └── knowledge.py         # долгосрочные знания
+│
+├── workflow/
+│   ├── planner.py           # строит план задач
+│   ├── executor.py          # выполняет задачи
+│   └── scheduler.py         # планировщик (в будущем)
+│
+├── tools/
+│   ├── image.py             # генерация изображений
+│   ├── web.py               # поиск в интернете
+│   ├── seo.py               # SEO-аудит
+│   ├── filesystem.py        # работа с файлами
+│   └── telegram.py          # утилиты для Telegram
+│
+├── metrics/
+│   ├── logger.py            # логирование
+│   ├── profiler.py          # замер времени
+│   └── dashboard.py         # (в будущем)
+│
+├── storage/
+│   ├── sqlite.py            # работа с SQLite
+│   └── files.py             # работа с файловой системой
+│
+├── config/
+│   └── agents.json          # конфигурация агентов
+│
+├── .env                     # переменные окружения
+├── requirements.txt
+└── README.md
