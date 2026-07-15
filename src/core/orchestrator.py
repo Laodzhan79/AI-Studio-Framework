@@ -26,12 +26,10 @@ class Orchestrator:
         session_id: str = "default",
     ) -> str:
 
-        agent_name = self.router.route(task)
-
-        agent = self.registry.get(agent_name)
+        agent = self.router.route(task)
 
         if agent is None:
-            raise ValueError(f"Agent '{agent_name}' not found.")
+            raise ValueError("Router did not return an agent.")
 
         self.context.add_message(session_id, f"USER: {task}")
 
@@ -42,6 +40,9 @@ class Orchestrator:
             },
         )
 
-        self.context.add_message(session_id, f"{agent.name}: {response}")
+        self.context.add_message(
+            session_id,
+            f"{agent.name}: {response}",
+        )
 
         return response

@@ -1,12 +1,19 @@
 from __future__ import annotations
 
+from src.core.registry import AgentRegistry
+from src.agents.base import BaseAgent
+
 
 class Router:
     """
-    Определяет, какому агенту передать задачу.
+    Маршрутизатор задач.
+    Возвращает объект агента, а не его имя.
     """
 
-    def route(self, task: str) -> str:
+    def __init__(self, registry: AgentRegistry):
+        self.registry = registry
+
+    def route(self, task: str) -> BaseAgent:
         text = task.lower()
 
         developer_keywords = (
@@ -21,6 +28,6 @@ class Router:
         )
 
         if any(keyword in text for keyword in developer_keywords):
-            return "developer"
+            return self.registry.get("developer")
 
-        return "pm"
+        return self.registry.get("pm")

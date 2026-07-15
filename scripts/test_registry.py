@@ -2,46 +2,37 @@ from src.core.registry import AgentRegistry
 from src.core.orchestrator import Orchestrator
 from src.core.router import Router
 from src.memory.context_manager import ContextManager
+
 from src.agents.pm_agent import PMAgent
 from src.agents.developer_agent import DeveloperAgent
-from src.providers.base_provider import BaseProvider
 
-
-class MockProvider(BaseProvider):
-    @property
-    def name(self) -> str:
-        return "MockProvider"
-
-    def generate(
-        self,
-        system_prompt: str,
-        user_prompt: str,
-        temperature: float = 0.7,
-    ) -> str:
-        return user_prompt
+from src.providers.gigachat_provider import GigaChatProvider
 
 
 def main():
     registry = AgentRegistry()
+
+    provider = GigaChatProvider()
+
+    registry.register(
+        PMAgent(
+            name="pm",
+            role="Project Manager",
+            provider=provider,
+        )
+    )
+
+    registry.register(
+        DeveloperAgent(
+            name="developer",
+            role="Developer",
+            provider=provider,
+        )
+    )
+
     context = ContextManager()
-    router = Router()
 
-    provider = MockProvider()
-
-    pm = PMAgent(
-        name="pm",
-        role="Project Manager",
-        provider=provider,
-    )
-
-    developer = DeveloperAgent(
-        name="developer",
-        role="Developer",
-        provider=provider,
-    )
-
-    registry.register(pm)
-    registry.register(developer)
+    router = Router(registry)
 
     orchestrator = Orchestrator(
         registry=registry,
@@ -49,19 +40,23 @@ def main():
         router=router,
     )
 
-    print(orchestrator.execute(
-        task="Составить план разработки проекта.",
-        session_id="session_1",
-    ))
+    print(
+        orchestrator.execute(
+            task="Составить план разработки проекта.",
+            session_id="session_1",
+        )
+    )
 
-    print("-" * 50)
+    print("-" * 60)
 
-    print(orchestrator.execute(
-        task="Написать Python класс ContextManager.",
-        session_id="session_1",
-    ))
+    print(
+        orchestrator.execute(
+            task="Написать Python класс ContextManager.",
+            session_id="session_1",
+        )
+    )
 
-    print("-" * 50)
+    print("-" * 60)
 
     print("История сессии:")
 

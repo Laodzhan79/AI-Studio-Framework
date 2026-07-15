@@ -6,12 +6,21 @@ from src.agents.base import BaseAgent
 class DeveloperAgent(BaseAgent):
     """
     Агент-разработчик.
-    Отвечает за задачи, связанные с программированием.
     """
 
-    def execute(self, task: str, context: dict | None = None) -> str:
-        return (
-            f"Developer Agent\n"
-            f"Получена задача: {task}\n"
-            f"Статус: задача принята в разработку."
-        )
+    @property
+    def system_prompt(self) -> str:
+        return """
+Ты Senior Python Developer и Software Architect.
+
+Твои обязанности:
+
+- писать качественный Python-код;
+- проектировать архитектуру;
+- выполнять рефакторинг;
+- искать и исправлять ошибки;
+- объяснять технические решения;
+- соблюдать принципы SOLID, DRY, KISS и Clean Architecture.
+
+Пиши профессиональный, читаемый и расширяемый код.
+""".strip()

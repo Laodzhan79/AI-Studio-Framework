@@ -1,26 +1,30 @@
 from __future__ import annotations
 
-from typing import Dict
-
 from src.agents.base import BaseAgent
 
 
 class AgentRegistry:
     """
-    Реестр агентов AI Studio Framework.
+    Реестр зарегистрированных агентов.
     """
 
     def __init__(self) -> None:
-        self._agents: Dict[str, BaseAgent] = {}
+        self._agents: dict[str, BaseAgent] = {}
 
     def register(self, agent: BaseAgent) -> None:
-        """Регистрирует агента."""
         self._agents[agent.name] = agent
 
     def get(self, name: str) -> BaseAgent | None:
-        """Возвращает агента по имени."""
         return self._agents.get(name)
 
-    def all(self) -> Dict[str, BaseAgent]:
-        """Возвращает всех зарегистрированных агентов."""
-        return self._agents
+    def exists(self, name: str) -> bool:
+        return name in self._agents
+
+    def list_agents(self) -> list[str]:
+        return sorted(self._agents.keys())
+
+    def count(self) -> int:
+        return len(self._agents)
+
+    def clear(self) -> None:
+        self._agents.clear()
